@@ -1,0 +1,11 @@
+
+#!/bin/bash
+
+alfa="ABCDEFGHIJKLMNOPRSTUVWXYZ"
+value=$(sha256sum <<< "$1$(($(date +%s)/(60*60*24*3)))")
+nume=( "${value:"{0..64..2}":2}" )
+for char in ${nume[@]^^}; do
+  ind=$(bc <<< "obase=16;ibase=10;$char%25")
+  key+=${alfa:$ind:1}
+done
+echo $key
